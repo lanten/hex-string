@@ -1,1 +1,1 @@
-www.lanten.me/hex-string/
+https://www.lanten.me/hex-string/
