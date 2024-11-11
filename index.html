@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hex to String</title>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        gap: 12px;
+        height: 100vh;
+        padding: 12px;
+        box-sizing: border-box;
+      }
+
+      .btn-box {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <textarea
+        id="string-input"
+        placeholder="String Value"
+        style="flex: 1"
+      ></textarea>
+      <div class="btn-box">
+        <button onclick="stringToHexClick()">String to Hex =></button>
+        <button onclick="hexToStringClick()"><= Hex to String</button>
+      </div>
+      <textarea
+        id="hex-input"
+        placeholder="Hex Value"
+        style="flex: 1"
+      ></textarea>
+    </div>
+
+    <script>
+      function hexToStringClick() {
+        const input = document.getElementById('hex-input').value
+        if (!input) return alert('请输入16进制字符串')
+        const output = hexToString(input)
+        document.getElementById('string-input').value = output
+      }
+
+      function stringToHexClick() {
+        const input = document.getElementById('string-input').value
+        if (!input) return alert('请输入字符串')
+        const output = stringToHex(input)
+        document.getElementById('hex-input').value = output
+      }
+
+      function hexToString(hex) {
+        let str = ''
+        for (let i = 0; i < hex.length; i += 4) {
+          // 每四个字符代表一个字节（十六进制）
+          let byte = hex.substr(i + 2, 2) // 跳过 '\x' 部分
+          // 将十六进制字符串转换为整数
+          let charCode = parseInt(byte, 16)
+          // 将整数转换为字符
+          str += String.fromCharCode(charCode)
+        }
+        return str
+      }
+
+      function stringToHex(str) {
+        let hex = ''
+        for (let i = 0; i < str.length; i++) {
+          // 获取字符的 Unicode 编码
+          let charCode = str.charCodeAt(i)
+          // 将 Unicode 编码转换为十六进制字符串
+          let hexCode = charCode.toString(16)
+          // 确保每个字符的十六进制编码为两位
+          if (hexCode.length === 1) {
+            hexCode = '0' + hexCode
+          }
+          // 将十六进制编码添加到结果字符串中
+          hex += '\\x' + hexCode
+        }
+        return hex
+      }
+    </script>
+  </body>
+</html>
